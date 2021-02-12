@@ -7,6 +7,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
 
 from sklearn import tree
+from sklearn.decomposition import PCA
+
 
 from sklearn.svm import SVC 
 from statistics import mode
@@ -17,21 +19,39 @@ from keras.models import Model
 
 class Classifier_Models():
     def __init__(self):
-        self.feature_reduction_model = load_model('my_final_model') #CNN for feature reduction
-
+        self.initial_model = load_model('dataset/best_model.h5') #CNN for feature reduction
+        # self.initial_model.summary()
+        
     def set_layer_for_feature_reduction(self,layer_for_feature_reduction):
-        self.feature_reduction_model = Model(inputs=self.feature_reduction_model.inputs, output=model.layers[layer_for_feature_reduction].output)
-
-    def __preprocess(self,X_train,X_test,layer_for_feature_reduction=-2):
+        self.feature_reduction_model = Model(inputs=self.initial_model.inputs, outputs=self.initial_model.layers[layer_for_feature_reduction].output)
+        
+    def __preprocess(self,X_train,X_test,layer_for_feature_reduction=-2,pca=False):
         self.set_layer_for_feature_reduction(layer_for_feature_reduction)
-        X_train = [self.feature_reduction_model.predict(i) for i in X_train]
-        X_test = [self.feature_reduction_model.predict(i) for i in X_test]
-        return X_train,X_test
+        X_train = self.feature_reduction_model.predict(X_train)
+        X_test = self.feature_reduction_model.predict(X_test)
+
+        if pca == False:
+            return X_train,X_test
+        else:
+            pca_model = PCA()
+            if pca>min(X_train.shape[0],X_train.shape[1]):
+                print(pca,"is larger than limit... setting pca value to "+str(min(X_train.shape[0],X_train.shape[1])))
+                pca=min(X_train.shape[0],X_train.shape[1])
+                
+            pca_model = PCA(n_components=pca)
+            pca_model.fit(X_train)
+
+            X_train = pca_model.transform(X_train)
+            X_test = pca_model.transform(X_test)
+
+            # print(X_train.shape,X_test.shape)
+            return X_train,X_test
 
 
-    def knn(self,k,X_train=None,y_train=None, X_test=None, y_test= None ,verbose='yes',layer_for_feature_reduction=-2):
 
-        X_train,X_test = self.__preprocess(X_train,X_test,layer_for_feature_reduction)
+    def knn(self,k,X_train=None,y_train=None, X_test=None, y_test= None ,verbose='yes',layer_for_feature_reduction=-2,pca=False):
+
+        X_train,X_test = self.__preprocess(X_train,X_test,layer_for_feature_reduction,pca=pca)
         
         knn = KNeighborsClassifier(n_neighbors=k)
         #Train the model using the training sets
@@ -46,13 +66,13 @@ class Classifier_Models():
             return y_pred
 
 
-    def DT(self,X_train=None,y_train=None, X_test=None, y_test= None ,verbose='yes',split_criterion = 'gini',split_strategy = 'best',max_depth = None,layer_for_feature_reduction=-2):
-        X_train,X_test = self.__preprocess(X_train,X_test,layer_for_feature_reduction)
+    def DT(self,X_train=None,y_train=None, X_test=None, y_test= None ,verbose='yes',split_criterion = 'gini',split_strategy = 'best',max_depth = None,layer_for_feature_reduction=-2,pca=False):
+        X_train,X_test = self.__preprocess(X_train,X_test,layer_for_feature_reduction,pca=pca)
 
         dt = tree.DecisionTreeClassifier(criterion = split_criterion,splitter = split_strategy, max_depth=max_depth)
         #Train the model using the training sets
         dt = dt.fit(X_train, y_train)
-        tree.plot_tree(dt) 
+        # tree.plot_tree(dt) 
         #Predict the response for test dataset
         y_pred = dt.predict(X_test)
 
@@ -63,11 +83,11 @@ class Classifier_Models():
             return y_pred
 
 
-    def svm(self,X_train=None,y_train=None,X_test=None,y_test=None,verbose='yes',layer_for_feature_reduction=-2):
-        X_train,X_test = self.__preprocess(X_train,X_test,layer_for_feature_reduction)
-
+    def svm(self,X_train=None,y_train=None,X_test=None,y_test=None,verbose='yes',layer_for_feature_reduction=-2,pca=False):
+        X_train,X_test = self.__preprocess(X_train,X_test,layer_for_feature_reduction,pca=pca)
         clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
         clf.fit(X_train, y_train)
+
         y_pred = clf.predict(X_test)
         if verbose == 'yes':
             acc = metrics.accuracy_score(y_test, y_pred)
@@ -100,3 +120,7 @@ class Classifier_Models():
             return predictions,accuracy_score
         else:
             return predictions
+
+
+# model = Classifier_Models()
+
