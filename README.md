@@ -28,14 +28,14 @@ Recommends songs based on the probabilistic classification of the mood of a give
 source file: `music_recommendation.py`
 
 ## Results
-**Emotion Classification Performance**\
-<img src="results/classifier experiments.png" width="700">
-**Emotion Recognition**\
-<img src="results/emotion_recognition.png" width="700" >\
-**Music Recommendation**\
-<img src="results/music recommendation.png" width="700" >\
-<img src="results/music recommendation1.png" width="700" >\
-<img src="results/music recommendation2.png" width="700" >\
+##Emotion Classification Performance
+<img src="results/classifier experiments.png" width="700"><br/>
+##Emotion Recognition
+<img src="results/emotion_recognition.png" width="700" ><br/>
+##Music Recommendation
+<img src="results/music recommendation.png" width="700" >
+<img src="results/music recommendation1.png" width="700" >
+<img src="results/music recommendation2.png" width="700" >
 
 
 ## Authors

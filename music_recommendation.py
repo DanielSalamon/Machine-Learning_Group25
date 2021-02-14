@@ -64,7 +64,7 @@ if type(x) == bool:
 else:
 	train_images=x[0]#[0:50]
 	train_labels=x[1]#[0:50]
-	test_images=x[2][1000:1008]
+	test_images=x[2][380:388]
 
 
 
@@ -96,9 +96,12 @@ else:
 	rows =2
 
 	for i in range(1,columns*rows +1):
-		# txt = get_emotion(np.argmax(predictions[i-1]))#+"\n"+str(recommendations[i-1])
 
-		txt = recommendations[i-1]
+
+		# txt = recommendations[i-1]
+
+
+		txt = get_emotion(np.argmax(predictions[i-1])) #remove comment to display emotion classification instead of music recommendation
 		if len(txt) > 30:
 			txt = txt[0:30]+"..."
 		fig.add_subplot(rows,columns,i).set_title(txt)
