@@ -64,7 +64,7 @@ if type(x) == bool:
 else:
 	train_images=x[0]#[0:50]
 	train_labels=x[1]#[0:50]
-	test_images=x[2][200:208]
+	test_images=x[2][1000:1008]
 
 
 
