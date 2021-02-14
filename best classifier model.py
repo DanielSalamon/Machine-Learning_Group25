@@ -12,10 +12,10 @@ from matplotlib import pyplot as plt
 np.set_printoptions(threshold=np.inf)
 
 
-layer = -6 #represents fc-1
+layer = -7 #represents fc-1
 
 
-pca_number_of_features = 20
+pca_number_of_features = 50
 
 
 
@@ -49,18 +49,36 @@ else:
 	model=Classifier_Models()
 
 	print("\nSVM model")
-	_,accuracy = model.svm(X_train=train_images,y_train=train_labels,X_test=test_images,y_test=test_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
+	_,accuracy = model.svm(X_train=train_images,y_train=train_labels,X_test=val_images,y_test=val_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
 	print("\t accuracy:",accuracy)
 	accuracies.append(accuracy)
 
-	
-	print("\nKNN model")
-	_,accuracy = model.knn(k=5,X_train=train_images,y_train=train_labels,X_test=test_images,y_test=test_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
-	print("\t accuracy:",accuracy)
-	accuracies.append(accuracy)
 
 	print("\nDT model")
-	_,accuracy = model.DT(X_train=train_images,y_train=train_labels,X_test=test_images,y_test=test_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
+	_,accuracy = model.DT(X_train=train_images,y_train=train_labels,X_test=val_images,y_test=val_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
+	print("\t accuracy:",accuracy)
+	accuracies.append(accuracy)
+
+
+	print("\nKNN (k=1) model")
+	_,accuracy = model.knn(k=1,X_train=train_images,y_train=train_labels,X_test=val_images,y_test=val_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
+	print("\t accuracy:",accuracy)
+	accuracies.append(accuracy)
+
+
+	print("\nKNN (k=3) model")
+	_,accuracy = model.knn(k=3,X_train=train_images,y_train=train_labels,X_test=val_images,y_test=val_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
+	print("\t accuracy:",accuracy)
+	accuracies.append(accuracy)
+
+
+	print("\nKNN (k=5) model")
+	_,accuracy = model.knn(k=5,X_train=train_images,y_train=train_labels,X_test=val_images,y_test=val_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
+	print("\t accuracy:",accuracy)
+	accuracies.append(accuracy)
+
+	print("\nKNN (k=7) model")
+	_,accuracy = model.knn(k=7,X_train=train_images,y_train=train_labels,X_test=val_images,y_test=val_labels,layer_for_feature_reduction=layer,pca=pca_number_of_features)
 	print("\t accuracy:",accuracy)
 	accuracies.append(accuracy)
 
@@ -71,7 +89,7 @@ else:
 
 	print(accuracies)
 
-	chart = plt.bar(['SVM','KNN','DT'],accuracies,color='r')
+	chart = plt.bar(['SVM','DT','KNN (k=1)','KNN (k=3)','KNN (k=5)','KNN (k=7)'],accuracies,color='r')
 
 	plt.xlabel("Classifier Model")
 

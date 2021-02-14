@@ -12,7 +12,10 @@ from matplotlib import pyplot as plt
 
 np.set_printoptions(threshold=np.inf)
 # layers = [-2,-3,-4,-5]
-layers = [-4,-3,-2]#for vgg.h5
+
+# layers = [-4,-3,-2]#for vgg.h5
+
+layers = [-7,-6,-4,-3]# for littleVGG_2.h
 # layers = [-6,-5,-4,-3] #for best_model.h5
 
 accuracies = []
@@ -34,22 +37,25 @@ else:
 	# val_labels=x[5][:10]
 	
 	for layer in layers:
-		print("Using layer "+str(layer))
+		print("\nUsing layer "+str(layer))
 		model = Classifier_Models()
 
 
 		predictions,accuracy = model.svm(X_train=train_images,y_train=train_labels,X_test=test_images,y_test=test_labels,layer_for_feature_reduction=layer)
 		accuracies.append(accuracy)
+		print("\taccuracy:",accuracy)
 
 	print(accuracies)
 
-	plt.bar(['flat layer','fc-1','fc-2'],accuracies)
+	plt.bar(['fc-1','fc-1 activated','fc-2','fc-2 activated'],accuracies)
+	# plt.bar(['flat layer','fc-1','fc-2'],accuracies)
+
 
 	plt.xlabel("layer")
 
 	plt.ylabel("accuracy")
 
-	plt.savefig("results/Network Layers accuracies using svm.png")
+	plt.savefig("results/VGG-Network Layers accuracies using svm.png")
 	plt.show()
 
 

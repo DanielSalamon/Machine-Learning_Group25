@@ -13,13 +13,12 @@ from sklearn.decomposition import PCA
 from sklearn.svm import SVC 
 from statistics import mode
 
-
 from keras.models import load_model
 from keras.models import Model
 
 class Classifier_Models():
     def __init__(self):
-        self.initial_model = load_model('dataset/best_model.h5') #CNN for feature reduction
+        self.initial_model = load_model('dataset/LittleVGG_2.h5') #CNN for feature reduction
         # self.initial_model.summary()
         
     def set_layer_for_feature_reduction(self,layer_for_feature_reduction):
@@ -85,14 +84,20 @@ class Classifier_Models():
 
     def svm(self,X_train=None,y_train=None,X_test=None,y_test=None,verbose='yes',layer_for_feature_reduction=-2,pca=False):
         X_train,X_test = self.__preprocess(X_train,X_test,layer_for_feature_reduction,pca=pca)
-        clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
-        clf.fit(X_train, y_train)
+        
+        if verbose == 'yes': #make classfication
+            clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
+            clf.fit(X_train, y_train)
 
-        y_pred = clf.predict(X_test)
-        if verbose == 'yes':
+            y_pred = clf.predict(X_test)
+
             acc = metrics.accuracy_score(y_test, y_pred)
             return y_pred, acc
-        else:
+        else: #make probabilistic classification
+            clf = make_pipeline(StandardScaler(), SVC(gamma='auto',probability=True))
+            clf.fit(X_train, y_train)
+
+            y_pred = clf.predict_proba(X_test)
             return y_pred
 
 
