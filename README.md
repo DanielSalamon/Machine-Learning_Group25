@@ -29,11 +29,11 @@ source file: `music_recommendation.py`
 
 ## Results
 **Classifier Performance**\
-<img src="results/classifier_experiments.png">
+<img src="results/classifier experiments.png" width="700">
 **Emotion Recognition**\
-<img src="results/emotion_recognition.png" width="400" >\
+<img src="results/emotion_recognition.png" width="700" >\
 **Music Recommendation 2**\
-<img src="results/music_recommendation.png" width="400" >\
+<img src="results/music recommendation.png" width="700" >\
 
 ## Authors
 - [Brown Ogum](https://github.com/brown532)
