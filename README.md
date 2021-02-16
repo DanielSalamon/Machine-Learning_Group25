@@ -27,14 +27,18 @@ source file: `best_PCA.py`
 Recommends songs based on the probabilistic classification of the mood of a given input image<br/>
 source file: `music_recommendation.py`
 
+- **FER_model directory**<br/>
+	- `model.py`: contains a script that builds adapted VGG16 architecture for Facial Expressions Recognition task.
+	- `train.py`: performs training of the neural network and plots the training history.
+
 ## Results
-##Emotion Classification Performance
+## Emotion Classification Performance
 <img src="results/classifier experiments.png" width="700"><br/>
-##Emotion Recognition
+## Emotion Recognition
 <img src="results/emotion_recognition.png" width="700" ><br/>
 <img src="results/emotion_recognition1.png" width="700" ><br/>
 <img src="results/emotion_recognition2.png" width="700" ><br/>
-##Music Recommendation
+## Music Recommendation
 <img src="results/music recommendation.png" width="700" >
 <img src="results/music recommendation1.png" width="700" >
 <img src="results/music recommendation2.png" width="700" >
@@ -45,3 +49,6 @@ source file: `music_recommendation.py`
 - [Daniel Salamon](https://github.com/DanielSalamon)
 - [Jelle Bosch](https://github.com/JRABosch)
 
+## Reference
+For this project, AffectNet Database was partially used. We refer to the author's paper for more details:
+ - A. Mollahosseini; B. Hasani; M. H. Mahoor, "AffectNet: A Database for Facial Expression, Valence, and Arousal Computing in the Wild," in IEEE Transactions on Affective Computing, 2017.
